@@ -1,4 +1,4 @@
-const dataController = () => {
+const dataController = (() => {
     // update data
     // provide data
     // save data to local storage
@@ -10,6 +10,6 @@ const dataController = () => {
     
 
     return { taskList };
-};
+})();
 
 export { dataController };
