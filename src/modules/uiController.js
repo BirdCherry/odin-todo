@@ -1,6 +1,6 @@
 const uiController = (() => {
-    // always clear focus from task items
     const setFocus = (event, element) => {
+        // always clear focus from task items
         document.querySelectorAll('.task-box').forEach(item => {
             if (item.classList.contains('focused')) {
                 item.classList.remove('focused')
@@ -25,24 +25,23 @@ const uiController = (() => {
         }
     };
 
-    const createTask = (data) => {
-        let [title, taskText, project, date] = data;
+    const createTask = (task) => {
         const taskLocation = document.querySelector('.tasks-list');
         const template = document.querySelector('#task-template');
         let newTaskItem = template.content.cloneNode(true);
 
-        newTaskItem.querySelector('.task-title').textContent = title;
-        newTaskItem.querySelector('.task-text').textContent = taskText;
-        newTaskItem.querySelector('.task-project').textContent = project;
-        // TODO: date will probably be in unix format, convert to DD.MM.
-        newTaskItem.querySelector('.task-date').textContent = date;
-
+        newTaskItem.querySelector('.task-title').textContent = task.title;
+        newTaskItem.querySelector('.task-text').textContent = task.text;
+        newTaskItem.querySelector('.task-project').textContent = task.project;
+        // newTaskItem.querySelector('.task-date').textContent = new Date(task.date).toLocaleDateString();
+        newTaskItem.querySelector('.task-date').textContent = new Intl.DateTimeFormat().format(task.date);
+        
         taskLocation.append(newTaskItem);
     };
 
-    const createProject = (data) => {
-        
-    }
+    const createProject = (task) => {
+
+    };
 
     const updateTaskList = () => {
         // TODO: remove all tasks and re-add them?
