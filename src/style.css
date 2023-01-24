@@ -125,7 +125,7 @@ li {
     margin-top: -0.6em;
 }
 
-.task-content:empty:before {
+.task-text:empty:before {
     content: attr(placeholder);
     color: #555;
 }
