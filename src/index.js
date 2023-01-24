@@ -7,15 +7,15 @@ import { dataController } from "./modules/dataController.js";
 
 const inputHandler = (() => {
     document.addEventListener('click', event => {
-        let element = '';
+        let clickedElement = '';
         if (event.target.closest('.task-box')) {
-            element = 'task'
+            clickedElement = 'task'
         } else if (event.target.closest('li')) {
-            element = 'project'
+            clickedElement = 'project'
         } else if (event.target.closest('.new-task')) {
-            element = 'newTask'
+            clickedElement = 'newTask'
         }
-        uiController.setFocus(event, element);
+        uiController.setFocus(event, clickedElement);
 
         // task item clicked: remove focus from all others, save data, set class .focused, update DOM?
 
@@ -33,10 +33,17 @@ const inputHandler = (() => {
         // Check if click was on a tasks item
         // TODO: move ui stuff to uiController.js
 
-        if (element == 'newTask') {
+        if (clickedElement == 'newTask') {
             // TODO: create new empty task, make it focused and set pointer on title
-            // TODO: if empty task already exists, disregard clicks
-            uiController.createTask(['title test', 'text test', 'project test', 'date test']);
+            // TODO: save this to array (dataController.js), refresh task list (uiController.js)
+            let newTask = {
+                title: '',
+                text: '',
+                project: '',
+                date: Date.now(),
+            };
+            // TEMPORARY TESTING
+            uiController.createTask(newTask);
         }
     });
 })();
