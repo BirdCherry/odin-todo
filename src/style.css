@@ -67,7 +67,16 @@ li {
 }
 
 .gap {
-    gap: 2em;
+    gap: 1.5em;
+}
+
+.new-task {
+    height: 1.3em;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    background-color: #fff000;
+    font-size: 1.5em;
+    text-align: center;
 }
 
 .tasks-list {
@@ -96,23 +105,23 @@ li {
 }
 
 .focused {
-    border: 1px solid #000;
+    border: 1px solid #777;
     border-radius: 5px;
-    transition: 300ms;
+    transition: 200ms;
     box-shadow: 0 3px 9px #00000055, 0 1px 3px #00000055;
 
 }
 
-.title {
+.task-title {
     font-weight: bold;
 }
 
-.title:empty:before {
+.task-title:empty:before {
     content: attr(placeholder);
     color: #555;
 }
 
-.task-content {
+.task-text {
     margin-top: -0.6em;
 }
 
@@ -121,13 +130,13 @@ li {
     color: #555;
 }
 
-.project {
+.task-project {
     flex: 1;
     background-color: #f7f7f7;
     color: #555;
 }
 
-.project:empty:before {
+.task-project:empty:before {
     content: attr(placeholder);
     color: #555;
 }
