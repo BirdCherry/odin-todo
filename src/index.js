@@ -23,16 +23,6 @@ const inputHandler = (() => {
 
         // new task button clicked, create new empty task, set it at the top, set it .focused, automatically add to currently selected project?
 
-
-
-        // if clicked on something else, remove focus from task items
-        // TODO: move ui stuff to uiController.js
-        // TODO: save contents from focused task item before removing focus
-        // TODO: if task is empty, discard it
-
-        // Check if click was on a tasks item
-        // TODO: move ui stuff to uiController.js
-
         if (clickedElement == 'newTask') {
             // TODO: create new empty task, make it focused and set pointer on title
             // TODO: save this to array (dataController.js), refresh task list (uiController.js)
