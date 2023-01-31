@@ -6,7 +6,7 @@ import { dataController } from "./modules/dataController.js";
 
 
 // custom DOM element: task-box
-class taskboxElement extends HTMLElement {
+customElements.define("task-box", class extends HTMLElement {
     constructor() {
         super();
         let template = document.getElementById('task-box');
@@ -52,7 +52,6 @@ class taskboxElement extends HTMLElement {
     }
 
     get taskData() {
-        // TODO: read task data and return it as an object?
         let data = {
             title: '',
             text: '',
@@ -70,16 +69,20 @@ class taskboxElement extends HTMLElement {
     };
 
     set taskData(data) {
-        // TODO: insert data to correct spots
-        let {title, text, project, date} = data; // is destructuring needed?
+        // HOWTO: <element>.taskData = data;
+        this.shadowRoot.querySelectorAll('.task').forEach(element => {
+            Object.entries(data).forEach(([key, value]) => {
+                if (element.classList.contains(key)) {
+                    element.textContent = value;
+                }
+            })
+        });
 
     }
 
-}
-
-customElements.define("task-box", taskboxElement);
+});
 
 const init = (() => {
     // new task button setup
-    document.querySelector('.new-task').addEventListener('click', click => domController.createTask())
+    document.querySelector('.new-task').addEventListener('click', _ => domController.createTask())
 })();
