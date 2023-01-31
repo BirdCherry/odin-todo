@@ -14,7 +14,8 @@
             <h1>Projects</h1>
             <nav>
                 <ol class="projects-list">
-                    <li class="default selected" id="all-projects">All</li>
+                    <li focused id="all-projects">All</li>
+                    <!-- <li slot="project-item"></li> -->
                 </ol>
             </nav>
         </section>
@@ -24,14 +25,49 @@
                 <div class="new-task">+</div>
             </div>
             <div class="tasks-list row gap">
-                <template id="task-template">
-                    <div class="task-box">
-                        <div contenteditable="true" placeholder="Title" class="task-title pad"></div>
-                        <div contenteditable="true" placeholder="New task…" class="task-text pad "></div>
-                        <div class="row">
-                            <div contenteditable="true" placeholder="Project" class="task-project pad"></div>
-                            <div class="task-date pad">21.01.</div>
-                        </div>
+                <template id="task-box">
+                    <!-- task-box element css -->
+                    <style>
+                        div {
+                            outline: none;
+                        }
+
+                        div:empty:before {
+                            content: attr(placeholder);
+                            color: #555;
+                        }
+
+                        :nth-child(2):not(:nth-last-child(2)) {
+                            font-weight: bold;
+                        }
+
+                        :nth-child(3):not(:last-child) {
+                            margin-top: -0.6em;
+                        }
+
+                        :nth-child(-n+3),
+                        div div {
+                            padding: 1em;
+                        }
+
+                        :nth-child(4) {
+                            display: flex;
+                            background-color: #f7f7f7;
+                        }
+
+                        div :nth-child(1) {
+                            flex: 1;
+                        }
+                    </style>
+                    <!-- task-box element shadow dom -->
+
+                    <div class="task title" contenteditable="plaintext-only" placeholder="Title"></div>
+                    <div class="task text" contenteditable="plaintext-only" placeholder="New task..."></div>
+                    <div>
+                        <div class="task project" contenteditable="plaintext-only" placeholder="Project"></div>
+                        <div class="task date">DD-MM-YY</div>
+                        <div class="delete">✕</div>
+                    </div>
                 </template>
             </div>
     </div>
