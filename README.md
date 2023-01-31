@@ -71,6 +71,11 @@ mode: 'development',
 devtool: 'inline-source-map',
 ```
 
+### Define css file for custom web component with webpack
+https://webpack.js.org/loaders/style-loader/#custom-elements-shadow-dom
+
+
+
 
 ## Problems I had
 
