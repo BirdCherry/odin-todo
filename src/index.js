@@ -56,7 +56,7 @@ customElements.define("task-box", class extends HTMLElement {
             title: '',
             text: '',
             project: '',
-            date: '',
+            timestamp: '',
         };
         this.shadowRoot.querySelectorAll('.task').forEach(element => {
             Object.keys(data).forEach(key => {
