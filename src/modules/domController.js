@@ -4,7 +4,7 @@ const domController = (() => {
             title: '',
             text: '',
             project: '',
-            date: Date.now(),
+            timestamp: Date.now(),
         }
 
         const location = document.querySelector('.tasks-list');
