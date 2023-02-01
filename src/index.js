@@ -27,9 +27,8 @@ customElements.define("task-box", class extends HTMLElement {
         this.shadowRoot.querySelector('.delete').addEventListener('click',
             click => this.deleteTask());
 
-
-        // TODO: mutationObserver? or is it really needed here?
-        // const observer = new MutationObserver(callback)
+        // TODO: save data when user edits a task
+        const observer = new MutationObserver(callback)
     }
 
     disconnectedCallback() {
@@ -40,6 +39,8 @@ customElements.define("task-box", class extends HTMLElement {
         this.shadowRoot.removeEventListener('input', input => {
             console.log(input.target)
         });
+        // save existing tasks after deleting one
+        dataController.saveTasks();
     }
 
     deleteTask() {
@@ -84,5 +85,7 @@ customElements.define("task-box", class extends HTMLElement {
 
 const init = (() => {
     // new task button setup
-    document.querySelector('.new-task').addEventListener('click', _ => domController.createTask())
+    document.querySelector('.new-task').addEventListener('click', _ => domController.createTask());
+    // load tasks from localstorage
+    dataController.loadTasks();
 })();
