@@ -1,4 +1,4 @@
-import style from "./style.css";
+import "./style.css";
 import { domController } from "./modules/domController.js";
 import { dataController } from "./modules/dataController.js";
 // TODO: add trash icon
@@ -16,43 +16,37 @@ customElements.define("task-box", class extends HTMLElement {
     }
 
     connectedCallback() {
-        // use this to add content to element?
-        console.log('connectedCallback')
-        // TODO: look for input and save it
-        this.shadowRoot.addEventListener('input', input => {
-            console.log(input.target)
-        });
+        // look for click on close button and delete task
+        this.shadowRoot.querySelector('.delete').addEventListener('click', _ => this.deleteTask());
 
-        // TODO: look for click on close button and delete task
-        this.shadowRoot.querySelector('.delete').addEventListener('click',
-            click => this.deleteTask());
+        // save data when user edits a task
+        // const observer = new MutationObserver(_ => dataController.saveAllTasks());
+        // observer.observe(this.shadowRoot, { characterData: true, subtree: true, });
 
-        // TODO: save data when user edits a task
-        const observer = new MutationObserver(callback)
+        // save data when user edits a task (version 2)
+        this.shadowRoot.addEventListener('input', _ => dataController.saveAllTasks())
+
+        // update project list
+        this.shadowRoot.querySelector('.project').addEventListener('focusout', element => domController.createProjectList(this.shadowRoot.querySelector('.project').textContent));
+    
     }
 
     disconnectedCallback() {
-        // use this to do stuff when the element gets removed?
-        // remove event listeners? Or do they get purged automatically? I think so
-        console.log('disconnectedCallback')
+        // remove event listeners
+        this.shadowRoot.querySelector('.delete').removeEventListener('click', _ => this.deleteTask());
+        this.shadowRoot.removeEventListener('input', _ => dataController.saveAllTasks())
 
-        this.shadowRoot.removeEventListener('input', input => {
-            console.log(input.target)
-        });
-        // save existing tasks after deleting one
-        dataController.saveTasks();
+        // sync localstorage after deleting a task
+        dataController.saveAllTasks();
     }
 
     deleteTask() {
-        console.log('delete task')
-        // TODO: delete data from array as well (do this in disconnectedCallback?)
-        if (confirm("Delete this task?")) {
-            this.remove();
-        }
+        if (confirm("Delete this task?")) this.remove();
 
     }
 
     get taskData() {
+        // read all .task elements, save data to object and return
         let data = {
             title: '',
             text: '',
@@ -78,14 +72,29 @@ customElements.define("task-box", class extends HTMLElement {
                 }
             })
         });
-
     }
-
 });
+
+function renderTasks() {
+    let tasks = dataController.getAllTasks()
+    tasks.forEach(task => domController.createTaskElement(task))
+};
+
+function renderProjects() {
+    let tasks = dataController.getAllTasks()
+    let projects = []
+    tasks.forEach(task => projects.push(task.project))
+    domController.createProjectList(projects);
+}
 
 const init = (() => {
     // new task button setup
-    document.querySelector('.new-task').addEventListener('click', _ => domController.createTask());
+    document.querySelector('.new-task').addEventListener('click', _ => {
+        domController.createTaskElement()
+        // add the new empty task to localstorage
+        dataController.saveAllTasks()
+    });
     // load tasks from localstorage
-    dataController.loadTasks();
+    renderTasks();
+    renderProjects();
 })();
