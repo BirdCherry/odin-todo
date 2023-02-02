@@ -1,5 +1,5 @@
 const domController = (() => {
-    const createTask = (data) => {
+    const createTaskElement = (data) => {
         const empty = {
             title: '',
             text: '',
@@ -13,16 +13,26 @@ const domController = (() => {
         location.prepend(newTask);
     };
 
-    const updateProjectList = () => {
+    const updateProjectList = (project) => {
+        // TODO: create set from current projects (dom)
+        //  create set from passed item(s)
+        // compare them and remove duplicates (Set.has())
+        // clear projects list (dom) and create a new one
+        const location = document.querySelector('.projects-list');
+        if (Array.isArray(projects)) projects.sort()
+        let projectTitles = new Set(projects)
+        console.log(projectTitles)
+
+
+        for (const title of projectTitles) {
+            const newListItem = document.createElement('li');
+            newListItem.textContent = title;
+            location.append(newListItem);
+        }
 
     };
 
-    const updateTaskList = () => {
-        // remove all tasks and re-add them?
-        // arrange tasks by date (newest first)
-    };
-
-    return { createTask, updateProjectList, updateTaskList };
+    return { createTaskElement, createProjectList };
 })();
 
 
