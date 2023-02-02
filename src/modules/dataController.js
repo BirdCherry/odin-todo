@@ -1,5 +1,3 @@
-import { domController } from "./domController";
-
 const dataController = (() => {
     // handle local storage
 
@@ -9,7 +7,7 @@ const dataController = (() => {
         { title: 'How to create a new task', text: 'Click on the yellow button on the top right of the page.', project: 'Tips', timestamp: Date.now(), },
     ];
 
-    const saveTasks = () => {
+    const saveAllTasks = () => {
         let taskArray = [];
         document.querySelectorAll('task-box').forEach(task => {
             taskArray.push(task.taskData)
@@ -19,16 +17,14 @@ const dataController = (() => {
         localStorage.setItem('tasks', JSON.stringify(taskArray));
     }
 
-    const loadTasks = () => {
+    const getAllTasks = () => {
         let taskArray = localStorage.getItem('tasks')
         // if localstorage is undefined, create introductory tasks by using default data
         taskArray = taskArray ? JSON.parse(taskArray) : DEFAULT_TASKS;
-        taskArray.forEach(task => {
-            domController.createTask(task)
-        })
+        return taskArray;
     }
 
-    return { saveTasks, loadTasks };
+    return { saveAllTasks, getAllTasks };
 })();
 
 export { dataController };
