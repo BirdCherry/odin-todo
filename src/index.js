@@ -83,14 +83,14 @@ customElements.define("project-item", class extends HTMLElement {
 
     connectedCallback() {
         this.addEventListener('click', event => {
-            domController.filterView(event.target)
+            domController.filterTasks(event.target)
         })
         console.log('list item connectedCallback')
     }
 
     disconnectedCallback() {
         this.removeEventListener('click', event => {
-            domController.filterView(event.target.textContent)
+            domController.filterTasks(event.target)
         })
     }
 })
