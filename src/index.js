@@ -27,8 +27,8 @@ customElements.define("task-box", class extends HTMLElement {
         this.shadowRoot.addEventListener('input', _ => dataController.saveAllTasks())
 
         // update project list
-        this.shadowRoot.querySelector('.project').addEventListener('focusout', element => domController.createProjectList(this.shadowRoot.querySelector('.project').textContent));
-    
+        this.shadowRoot.querySelector('.project').addEventListener('focusout', element => domController.updateProjectList(this.shadowRoot.querySelector('.project').textContent));
+
     }
 
     disconnectedCallback() {
@@ -56,7 +56,7 @@ customElements.define("task-box", class extends HTMLElement {
         this.shadowRoot.querySelectorAll('.task').forEach(element => {
             Object.keys(data).forEach(key => {
                 if (element.classList.contains(key)) {
-                data[key] = element.textContent;
+                    data[key] = element.textContent;
                 }
             })
         })
@@ -75,6 +75,26 @@ customElements.define("task-box", class extends HTMLElement {
     }
 });
 
+// custom DOM element: project
+customElements.define("project-item", class extends HTMLElement {
+    constructor() {
+        super();
+    }
+
+    connectedCallback() {
+        this.addEventListener('click', event => {
+            domController.filterView(event.target)
+        })
+        console.log('list item connectedCallback')
+    }
+
+    disconnectedCallback() {
+        this.removeEventListener('click', event => {
+            domController.filterView(event.target.textContent)
+        })
+    }
+})
+
 function renderTasks() {
     let tasks = dataController.getAllTasks()
     tasks.forEach(task => domController.createTaskElement(task))
@@ -84,17 +104,17 @@ function renderProjects() {
     let tasks = dataController.getAllTasks()
     let projects = []
     tasks.forEach(task => projects.push(task.project))
-    domController.createProjectList(projects);
+    domController.updateProjectList(projects);
 }
 
 const init = (() => {
+    // load tasks from localstorage, update project list
+    renderTasks();
+    renderProjects();
     // new task button setup
     document.querySelector('.new-task').addEventListener('click', _ => {
         domController.createTaskElement()
         // add the new empty task to localstorage
         dataController.saveAllTasks()
     });
-    // load tasks from localstorage
-    renderTasks();
-    renderProjects();
 })();
