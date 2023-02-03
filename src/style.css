@@ -21,24 +21,24 @@ h2 {
     font-weight: normal;
 }
 
-ol {
-    list-style-type: none;
-    padding-left: 0;
+.projects-list {
+    margin-top: 1em;
 }
 
-li {
+project-item {
     padding-bottom: 0.5em;
     font-size: large;
+    display: block;
 }
 
-li[focused] {
+project-item[focused] {
     font-weight: bold;
     /* border: #000 2px solid;
     border-radius: 5px; */
 }
 
 
-li[focused]::after {
+project-item[focused]::after {
     content: " →";
     float: right;
 }
