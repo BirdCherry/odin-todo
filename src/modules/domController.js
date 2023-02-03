@@ -13,26 +13,53 @@ const domController = (() => {
         location.prepend(newTask);
     };
 
-    const updateProjectList = (project) => {
-        // TODO: create set from current projects (dom)
-        //  create set from passed item(s)
-        // compare them and remove duplicates (Set.has())
-        // clear projects list (dom) and create a new one
+    const updateProjectList = (projects) => {
         const location = document.querySelector('.projects-list');
-        if (Array.isArray(projects)) projects.sort()
-        let projectTitles = new Set(projects)
-        console.log(projectTitles)
+        let newProjects = Array.isArray(projects) ? projects : [projects]
+        let currentProjects = Array
+            .from(document.querySelectorAll('task-box'))
+            .map((i) => i.taskData.project)
 
+        // ok... so we are combining new and current projects arrays,
+        // then converting them into a set to remove duplicates,
+        // then converting it back to an array,
+        // then removing empty/falsy values,
+        // and then sorting
+        let updatedProjectList = Array
+            .from(new Set(currentProjects.concat(newProjects)))
+            .filter(Boolean)
+            .sort()
 
-        for (const title of projectTitles) {
-            const newListItem = document.createElement('li');
-            newListItem.textContent = title;
+        // remove old project list from DOM
+        let currentProjectElements = document.querySelectorAll('.project')
+        for (const element of currentProjectElements) element.remove()
+
+        // create new project list and append to DOM
+        for (const projectName of updatedProjectList) {
+            const newListItem = document.createElement('project-item');
+            newListItem.classList.add('project')
+            newListItem.textContent = projectName;
             location.append(newListItem);
         }
 
     };
 
-    return { createTaskElement, createProjectList };
+    const filterTasks = (project) => {
+        // set [focused] attribute to selected project
+        document.querySelectorAll('project-item').forEach(item => item.removeAttribute('focused'))
+        project.setAttribute('focused', '')
+
+        // TODO: set [hidden] attribute to all task-boxes that don't have selected project name
+        let tasks = document.querySelectorAll('task-box')
+        tasks.forEach(item => {
+            item.removeAttribute('hidden')
+            if (item.taskData.project != project.textContent && project.textContent != 'All') {
+            item.setAttribute('hidden', '')
+            }
+        })
+    }
+
+    return { createTaskElement, updateProjectList, filterTasks };
 })();
 
 
