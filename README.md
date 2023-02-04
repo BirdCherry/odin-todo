@@ -76,6 +76,10 @@ https://webpack.js.org/loaders/style-loader/#custom-elements-shadow-dom
 
 ### Publish project to GitHub Pages
 ```
+npm run build
+```
+
+```
 git subtree push --prefix dist origin gh-pages
 ```
 This will publish `dist` folder on a separate `gh-pages` brach.
