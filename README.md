@@ -50,7 +50,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 ### webpack-dev-server
 
-Run a development server that proves live reloading
+Run a development server that provides live reloading
 
 Setup `webpack.config.js`:
 
