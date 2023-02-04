@@ -1,0 +1,28 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><script defer="defer" src="runtime.js"></script><script defer="defer" src="main.js"></script></head><body><header><b>Odin</b> To-Do</header><div class="main row pad gap"><section><h1>Projects</h1><nav><div class="projects-list"><project-item focused id="all-projects">All</project-item></div></nav></section><section><div class="row"><h1>Tasks</h1><div class="new-task">+</div></div><div class="tasks-list row gap"><template id="task-box"><style>div {
+                            outline: none;
+                        }
+
+                        div:empty:before {
+                            content: attr(placeholder);
+                            color: #555;
+                        }
+
+                        :nth-child(2):not(:nth-last-child(2)) {
+                            font-weight: bold;
+                            font-size: large;
+                            margin-bottom: -1em;
+                        }
+                        
+                        :nth-child(-n+3),
+                        div div {
+                            padding: 1em;
+                        }
+
+                        :nth-child(4) {
+                            display: flex;
+                            background-color: #f7f7f7;
+                        }
+
+                        div :nth-child(1) {
+                            flex: 1;
+                        }</style><div class="task title" contenteditable="plaintext-only" placeholder="Title"></div><div class="task text" contenteditable="plaintext-only" placeholder="New task..."></div><div><div class="task project" contenteditable="plaintext-only" placeholder="Project"></div><div class="task timestamp" hidden></div><div class="date">DD-MM-YY</div><div class="delete">✕</div></div></template></div></section></div></body></html>
