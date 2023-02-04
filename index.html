@@ -1,5 +1,6 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><script defer="defer" src="runtime.js"></script><script defer="defer" src="main.js"></script></head><body><header><b>Odin</b> To-Do</header><div class="main row pad gap"><section><h1>Projects</h1><nav><div class="projects-list"><project-item focused id="all-projects">All</project-item></div></nav></section><section><div class="row"><h1>Tasks</h1><div class="new-task">+</div></div><div class="tasks-list row gap"><template id="task-box"><style>div {
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>To-Do</title><link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✏️</text></svg>"><script defer="defer" src="runtime.js"></script><script defer="defer" src="main.js"></script></head><body><header><b>Odin</b> To-Do</header><div class="main row pad gap"><section><h1>Projects</h1><nav><div class="projects-list"><project-item focused id="all-projects">All</project-item></div></nav></section><section><div class="row"><h1>Tasks</h1><div class="new-task">+</div></div><div class="tasks-list row gap"><template id="task-box"><style>div {
                             outline: none;
+                            white-space: pre-wrap;
                         }
 
                         div:empty:before {
@@ -12,7 +13,7 @@
                             font-size: large;
                             margin-bottom: -1em;
                         }
-                        
+
                         :nth-child(-n+3),
                         div div {
                             padding: 1em;
