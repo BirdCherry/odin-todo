@@ -1,5 +1,5 @@
 const domController = (() => {
-    const createTaskElement = (data) => {
+    const createEmptyTask = () => {
         const empty = {
             title: '',
             text: '',
@@ -9,11 +9,28 @@ const domController = (() => {
 
         const location = document.querySelector('.tasks-list');
         const newTask = document.createElement('task-box');
-        newTask.taskData = data ?? empty;
+        newTask.taskData = empty;
         location.prepend(newTask);
     };
 
-    const updateProjectList = (projects) => {
+    const refreshTaskList = (tasks) => {
+        const location = document.querySelector('.tasks-list')
+        let newTasks = Array.isArray(tasks) ? tasks : [tasks]
+        let currentTaskElements = location.querySelectorAll('task-box')
+
+        // remove all task-boxes from DOM
+        for (const element of currentTaskElements) element.remove()
+
+        // create new task-boxes and prepend to DOM
+        for (const task of newTasks) {
+            const newTaskElement = document.createElement('task-box')
+            newTaskElement.taskData = task
+            location.prepend(newTaskElement)
+        }
+
+    }
+
+    const refreshProjectList = (projects) => {
         const location = document.querySelector('.projects-list');
         let newProjects = Array.isArray(projects) ? projects : [projects]
         let currentProjects = Array
@@ -44,26 +61,35 @@ const domController = (() => {
 
     };
 
-    const filterTasks = (project) => {
+    const filterTasks = (projectElement) => {
         // set [focused] attribute to selected project
-        document.querySelectorAll('project-item').forEach(item => item.removeAttribute('focused'))
-        project.setAttribute('focused', '')
+        const projectElements = document.querySelectorAll('project-item')
+        const taskElements = document.querySelectorAll('task-box')
+        const allProjectsElement = document.querySelector('#all-projects')
 
-        // TODO: set [hidden] attribute to all task-boxes that don't have selected project name
-        let tasks = document.querySelectorAll('task-box')
-        tasks.forEach(item => {
-            item.removeAttribute('hidden')
-            if (item.taskData.project != project.textContent && project.textContent != 'All') {
-            item.setAttribute('hidden', '')
+        // set [focused] attribute to project-item elements
+        for (const element of projectElements) {
+            element.removeAttribute('focused')
+        }
+        if (projectElement) {
+            projectElement.setAttribute('focused', '')
+        } else {
+            allProjectsElement.setAttribute('focused', '')
+        }
+
+        // set [hidden] attribute to task-box elements
+        for (const element of taskElements) {
+            element.removeAttribute('hidden')
+            if (projectElement
+                && element.taskData.project != projectElement.textContent
+                && projectElement.textContent != 'All') {
+                element.setAttribute('hidden', '')
             }
-        })
+        }
     }
 
-    return { createTaskElement, updateProjectList, filterTasks };
+    return { createEmptyTask, refreshProjectList, refreshTaskList, filterTasks };
 })();
-
-
-
 
 export { domController };
 
