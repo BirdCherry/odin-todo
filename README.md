@@ -74,8 +74,12 @@ devtool: 'inline-source-map',
 ### Define css file for custom web component with webpack
 https://webpack.js.org/loaders/style-loader/#custom-elements-shadow-dom
 
-
-
+### Publish project to GitHub Pages
+```
+git subtree push --prefix dist origin gh-pages
+```
+This will publish `dist` folder on a separate `gh-pages` brach.
+On GitHub repository settings, set repo public and on Pages tab set deployment branch as gh-pages.
 
 ## Problems I had
 
