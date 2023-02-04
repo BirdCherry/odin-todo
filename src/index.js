@@ -29,6 +29,11 @@ customElements.define("task-box", class extends HTMLElement {
         // update project list
         this.shadowRoot.querySelector('.project').addEventListener('focusout', element => domController.updateProjectList(this.shadowRoot.querySelector('.project').textContent));
 
+        // add user readable date
+        const dateElement = this.shadowRoot.querySelector('.date')
+        const timestamp = this.shadowRoot.querySelector('.timestamp').textContent
+        const dateTimeOptions = {dateStyle: 'medium'}
+        dateElement.textContent = new Intl.DateTimeFormat('default', dateTimeOptions).format(timestamp)
     }
 
     disconnectedCallback() {
