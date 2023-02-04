@@ -1,7 +1,6 @@
 import "./style.css";
 import { domController } from "./modules/domController.js";
 import { dataController } from "./modules/dataController.js";
-// TODO: add trash icon
 // TODO: add star icon (pin to top)
 
 
@@ -24,10 +23,10 @@ customElements.define("task-box", class extends HTMLElement {
         // observer.observe(this.shadowRoot, { characterData: true, subtree: true, });
 
         // save data when user edits a task (version 2)
-        this.shadowRoot.addEventListener('input', _ => dataController.saveAllTasks())
+        this.shadowRoot.addEventListener('input', _ => dataController.setTasks())
 
         // update project list
-        this.shadowRoot.querySelector('.project').addEventListener('focusout', element => domController.updateProjectList(this.shadowRoot.querySelector('.project').textContent));
+        this.shadowRoot.querySelector('.project').addEventListener('focusout', _ => domController.refreshProjectList(this.shadowRoot.querySelector('.project').textContent));
 
         // add user readable date
         const dateElement = this.shadowRoot.querySelector('.date')
@@ -39,10 +38,13 @@ customElements.define("task-box", class extends HTMLElement {
     disconnectedCallback() {
         // remove event listeners
         this.shadowRoot.querySelector('.delete').removeEventListener('click', _ => this.deleteTask());
-        this.shadowRoot.removeEventListener('input', _ => dataController.saveAllTasks())
+        this.shadowRoot.removeEventListener('input', _ => dataController.setTasks())
 
         // sync localstorage after deleting a task
-        dataController.saveAllTasks();
+        dataController.setTasks();
+
+        // update ui
+        renderProjects();
     }
 
     deleteTask() {
@@ -80,7 +82,7 @@ customElements.define("task-box", class extends HTMLElement {
     }
 });
 
-// custom DOM element: project
+// custom DOM element: project-item
 customElements.define("project-item", class extends HTMLElement {
     constructor() {
         super();
@@ -90,7 +92,6 @@ customElements.define("project-item", class extends HTMLElement {
         this.addEventListener('click', event => {
             domController.filterTasks(event.target)
         })
-        console.log('list item connectedCallback')
     }
 
     disconnectedCallback() {
@@ -101,15 +102,13 @@ customElements.define("project-item", class extends HTMLElement {
 })
 
 function renderTasks() {
-    let tasks = dataController.getAllTasks()
-    tasks.forEach(task => domController.createTaskElement(task))
+    domController.refreshTaskList(dataController.getTasks())
 };
 
 function renderProjects() {
-    let tasks = dataController.getAllTasks()
-    let projects = []
-    tasks.forEach(task => projects.push(task.project))
-    domController.updateProjectList(projects);
+    let tasks = dataController.getTasks()
+    let projectNames = tasks.map(item => item.project)
+    domController.refreshProjectList(projectNames)
 }
 
 const init = (() => {
@@ -118,8 +117,9 @@ const init = (() => {
     renderProjects();
     // new task button setup
     document.querySelector('.new-task').addEventListener('click', _ => {
-        domController.createTaskElement()
-        // add the new empty task to localstorage
-        dataController.saveAllTasks()
+        domController.createEmptyTask()
+        domController.filterTasks()
+        // update localstorage
+        dataController.setTasks()
     });
 })();
