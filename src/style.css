@@ -84,13 +84,13 @@ project-item[focused]::after {
     align-items: start;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
     .tasks-list {
         grid-template-columns: 1fr 1fr;
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .tasks-list {
         grid-template-columns: 1fr;
     }
